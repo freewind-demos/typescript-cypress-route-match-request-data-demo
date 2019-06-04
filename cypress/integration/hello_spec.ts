@@ -1,39 +1,34 @@
-import {add} from '../../add'
+describe('cypress', () => {
 
-describe('TypeScript', () => {
-  it('works', () => {
-    // note TypeScript definition
-    const x: number = 42
-  })
+  it('match request data', () => {
 
-  it('checks shape of an object', () => {
-    const object = {
-      age: 21,
-      name: 'Joe',
-    }
-    expect(object).to.have.all.keys('name', 'age')
-  })
+    cy.server();
 
-  it('uses cy commands', () => {
-    cy.wrap({}).should('deep.eq', {})
-  })
+    // FIXME
+    // how to get request and check it's 'headers' to respond different stub responses?
 
-  it('tests our example site', () => {
-    cy.visit('https://example.cypress.io/')
-    cy.get('.home-list')
-      .contains('Querying')
-      .click()
-    cy.get('#query-btn').should('contain', 'Button')
-  })
+    // cy.route('GET', '/public/data.json', (routeData: Cypress.RouteOptions, x:any) => {
+    //   console.log('### routeData', routeData, x);
+    //   return {
+    //     data: {"message":"aaa"}
+    //   }
+    // })
+    
+    // cy.route({
+    //   method: 'GET',
+    //   url: '/public/data.json',
+    //   onRequest: (...args): void => {
+    //     console.log('### onRequest', args)
+    //   },
+    //   onResponse: (...args): void => {
+    //     console.log('### onResponse', args)
+    //   }
+    // })
+    cy.visit('/public/index.html');
 
-  // enable once we release updated TypeScript definitions
-  it('has Cypress object type definition', () => {
-    expect(Cypress.version).to.be.a('string')
-  })
+    cy.get('#button1').click();
+    cy.get('#message').should('have.text', 'xxx')
 
-
-  it('adds numbers', () => {
-    expect(add(2, 3)).to.equal(5)
   })
 
 })
